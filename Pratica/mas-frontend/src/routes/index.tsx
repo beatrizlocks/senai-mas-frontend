@@ -1,17 +1,33 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
-import { Dashboard } from '../pages/Dashboard';
-import { Login } from '../pages/Login';
-import { Register } from '../pages/Register';
-import { NotFound } from '../pages/NotFound';
+import {
+  Route as ReactDOMRoute,
+  RouteProps as ReactDOMRouteProps,
+  Redirect
+} from 'react-router-dom';
 
-const Routes: React.FC = () => (
-    <Switch>
-        <Route path="/" exact component={Login} />
-        <Route path="/register"  component={Register} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/*"component={NotFound}/>
-    </Switch>
-);
+import {useAuth} from '../hooks/Auth';
 
-export default Routes;
+interface RouteProps extends ReactDOMRouteProps {
+  isPrivate?: boolean;
+  component: React.ComponentType;
+}
+
+const Route: React.FC<RouteProps> = ({
+  isPrivate = false,
+  component: Component,
+  ...rest
+}) => {
+
+  const {user} = useAuth();
+
+  return (
+    <ReactDOMRoute
+      {...rest}
+      render={({ location }) => {
+        return isPrivate === !!user ? <Component /> : <Redirect to="/"/>;
+      }}
+    />
+  );
+};
+
+export default Route;
