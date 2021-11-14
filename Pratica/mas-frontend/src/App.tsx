@@ -8,7 +8,7 @@ function App() {
   return (
     <Router>
       <AppProvider>
-        <Router />
+        <Routes />
       </AppProvider>
       <GlobalStyle />
     </Router>
