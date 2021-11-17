@@ -54,11 +54,9 @@ export function Login() {
                         <FiLogIn />
                         Cadastre sua conta
                     </Link>
-                </FormContainer>
-                
+                </FormContainer>    
             </Content>
             <Background />
         </Container>
-
     )
 }
